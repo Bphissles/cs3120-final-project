@@ -1,4 +1,9 @@
+<script setup>
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+</script>
 <template>
   <Navigation />
-  <NuxtPage />
+  <div class="container">
+    <NuxtPage />
+  </div>
 </template>
