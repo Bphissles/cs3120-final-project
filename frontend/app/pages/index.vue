@@ -10,8 +10,9 @@ const success = ref(null)
 const predictionResult = ref(null)
 const batchResults = ref(null)
 
-// API Base URL - in production this would be an env var
-const API_URL = 'https://cs3120-final-project.onrender.com/api'
+// Get runtime config
+const config = useRuntimeConfig()
+const API_URL = config.public.apiBase
 
 // --- Categorical Options ---
 const categoricalOptions = {
@@ -113,43 +114,22 @@ const categoricalOptions = {
 }
 
 // --- Form Schema ---
+// Reduced to Top 10 most predictive features
 const formFields = [
-  { name: 'Marital status', type: 'select', options: categoricalOptions.maritalStatus, default: 1, group: 'Demographic' },
-  { name: 'Application mode', type: 'select', options: categoricalOptions.applicationMode, default: 17, group: 'Academic', description: 'Method of application used by the student' },
-  { name: 'Application order', type: 'number', default: 5, group: 'Academic', description: 'Application order (between 0 - first choice; and 9 last choice)' },
   { name: 'Course', type: 'select', options: categoricalOptions.course, default: 171, group: 'Academic' },
-  { name: 'Daytime/evening attendance', type: 'select', options: categoricalOptions.daytimeEvening, default: 1, group: 'Academic' },
-  { name: 'Previous qualification', type: 'select', options: categoricalOptions.qualification, default: 1, group: 'Academic', description: 'The qualification obtained before enrollment' },
-  { name: 'Previous qualification (grade)', type: 'number', step: '0.1', default: 122.0, group: 'Academic', description: 'Grade of previous qualification (between 0 and 200)' },
-  { name: 'Nacionality', type: 'select', options: categoricalOptions.nationality, default: 1, group: 'Demographic' },
-  { name: 'Mother\'s qualification', type: 'select', options: categoricalOptions.parentQualification, default: 19, group: 'Socioeconomic' },
-  { name: 'Father\'s qualification', type: 'select', options: categoricalOptions.parentQualification, default: 12, group: 'Socioeconomic' },
-  { name: 'Mother\'s occupation', type: 'select', options: categoricalOptions.occupation, default: 5, group: 'Socioeconomic' },
-  { name: 'Father\'s occupation', type: 'select', options: categoricalOptions.occupation, default: 9, group: 'Socioeconomic' },
-  { name: 'Admission grade', type: 'number', step: '0.1', default: 127.3, group: 'Academic', description: 'Admission grade (between 0 and 200)' },
-  { name: 'Displaced', type: 'select', options: categoricalOptions.yesNo, default: 1, group: 'Demographic', description: 'Is the student a displaced person?' },
-  { name: 'Educational special needs', type: 'select', options: categoricalOptions.yesNo, default: 0, group: 'Demographic' },
-  { name: 'Debtor', type: 'select', options: categoricalOptions.yesNo, default: 0, group: 'Socioeconomic', description: 'Is the student a debtor?' },
-  { name: 'Tuition fees up to date', type: 'select', options: categoricalOptions.yesNo, default: 1, group: 'Socioeconomic', description: 'Are tuition fees paid up to date?' },
-  { name: 'Gender', type: 'select', options: categoricalOptions.gender, default: 1, group: 'Demographic' },
-  { name: 'Scholarship holder', type: 'select', options: categoricalOptions.yesNo, default: 0, group: 'Socioeconomic', description: 'Is the student a scholarship holder?' },
   { name: 'Age at enrollment', type: 'number', default: 20, group: 'Demographic', description: 'Age of student at enrollment' },
-  { name: 'International', type: 'select', options: categoricalOptions.yesNo, default: 0, group: 'Demographic', description: 'Is the student an international student?' },
-  { name: 'Curricular units 1st sem (credited)', type: 'number', default: 0, group: 'Performance (1st Sem)', description: 'Number of curricular units credited in the 1st semester' },
-  { name: 'Curricular units 1st sem (enrolled)', type: 'number', default: 0, group: 'Performance (1st Sem)', description: 'Number of curricular units enrolled in the 1st semester' },
+  { name: 'Tuition fees up to date', type: 'select', options: categoricalOptions.yesNo, default: 1, group: 'Socioeconomic', description: 'Are tuition fees paid up to date?' },
+  
+  // 1st Semester Performance
   { name: 'Curricular units 1st sem (evaluations)', type: 'number', default: 0, group: 'Performance (1st Sem)', description: 'Number of evaluations to curricular units in the 1st semester' },
   { name: 'Curricular units 1st sem (approved)', type: 'number', default: 0, group: 'Performance (1st Sem)', description: 'Number of curricular units approved in the 1st semester' },
   { name: 'Curricular units 1st sem (grade)', type: 'number', step: '0.1', default: 0.0, group: 'Performance (1st Sem)', description: 'Grade average in the 1st semester (between 0 and 20)' },
-  { name: 'Curricular units 1st sem (without evaluations)', type: 'number', default: 0, group: 'Performance (1st Sem)', description: 'Number of curricular units without evaluations in the 1st semester' },
-  { name: 'Curricular units 2nd sem (credited)', type: 'number', default: 0, group: 'Performance (2nd Sem)', description: 'Number of curricular units credited in the 2nd semester' },
+
+  // 2nd Semester Performance
   { name: 'Curricular units 2nd sem (enrolled)', type: 'number', default: 0, group: 'Performance (2nd Sem)', description: 'Number of curricular units enrolled in the 2nd semester' },
   { name: 'Curricular units 2nd sem (evaluations)', type: 'number', default: 0, group: 'Performance (2nd Sem)', description: 'Number of evaluations to curricular units in the 2nd semester' },
   { name: 'Curricular units 2nd sem (approved)', type: 'number', default: 0, group: 'Performance (2nd Sem)', description: 'Number of curricular units approved in the 2nd semester' },
-  { name: 'Curricular units 2nd sem (grade)', type: 'number', step: '0.1', default: 0.0, group: 'Performance (2nd Sem)', description: 'Grade average in the 2nd semester (between 0 and 20)' },
-  { name: 'Curricular units 2nd sem (without evaluations)', type: 'number', default: 0, group: 'Performance (2nd Sem)', description: 'Number of curricular units without evaluations in the 2nd semester' },
-  { name: 'Unemployment rate', type: 'number', step: '0.1', default: 10.8, group: 'Macroeconomic', description: 'Unemployment rate (%)' },
-  { name: 'Inflation rate', type: 'number', step: '0.1', default: 1.4, group: 'Macroeconomic', description: 'Inflation rate (%)' },
-  { name: 'GDP', type: 'number', step: '0.01', default: 1.74, group: 'Macroeconomic', description: 'GDP' }
+  { name: 'Curricular units 2nd sem (grade)', type: 'number', step: '0.1', default: 0.0, group: 'Performance (2nd Sem)', description: 'Grade average in the 2nd semester (between 0 and 20)' }
 ]
 
 // Initialize form data with defaults

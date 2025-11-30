@@ -11,7 +11,7 @@ app = Flask(__name__)
 allowed_origins = [
     "http://localhost:3000",
     "https://www.benhislop.com",
-    "https://cs3120-final-project.netlify.app" # Assuming netlify deploy just in case
+    "https://cs3120-final-project.netlify.app"
 ]
 CORS(app, resources={r"/api/*": {"origins": allowed_origins}})
 
