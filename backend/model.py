@@ -26,29 +26,46 @@ class DropoutPredictor:
         df = pd.read_csv(data_path, sep=";", na_values=["", " "])
         df = self.clean_data(df)
         
+        # Define Top 10 features
+        top_features = [
+            "Curricular units 2nd sem (approved)",
+            "Curricular units 2nd sem (grade)",
+            "Curricular units 1st sem (approved)",
+            "Curricular units 1st sem (grade)",
+            "Tuition fees up to date",
+            "Curricular units 2nd sem (evaluations)",
+            "Curricular units 1st sem (evaluations)",
+            "Age at enrollment",
+            "Course",
+            "Curricular units 2nd sem (enrolled)"
+        ]
+        
+        # Filter dataframe to keep only top features + Target
+        if "Target" in df.columns:
+            df = df[top_features + ["Target"]]
+        
         # Identify target and features
         target_column = "Target"
         if target_column not in df.columns:
-            raise KeyError(f"Target column '{target_column}' missing")
-
-        X = df.drop(columns=target_column)
+             raise ValueError("Target column not found in data")
+             
+        X = df.drop(columns=[target_column])
         y = df[target_column]
         
-        # Save feature columns order
+        # Store feature columns
         self.feature_columns = X.columns.tolist()
-
-        # Handle categorical columns
-        # The notebook used factorize (Ordinal encoding equivalent)
+        
+        # Identify categorical columns in the subset
         self.categorical_columns = X.select_dtypes(include=["object", "category"]).columns.tolist()
         
-        # Initialize and fit encoder for categorical features
-        # handle_unknown='use_encoded_value' and unknown_value=-1 helps with unseen categories in production
-        self.encoder = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1)
-        
+        # Encoding
+        # We'll just use factorize for simplicity like the notebook or OrdinalEncoder
+        # Ideally we save the encoder. Let's use OrdinalEncoder for consistency
         if self.categorical_columns:
+            self.encoder = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1)
             X[self.categorical_columns] = self.encoder.fit_transform(X[self.categorical_columns])
-
-        # Best params from notebook: 
+            
+        # Model Parameters (Best from Notebook)
         # {'max_depth': 10, 'min_samples_leaf': 10, 'class_weight': 'balanced_subsample'}
         self.model = RandomForestClassifier(
             n_estimators=200,
@@ -59,7 +76,7 @@ class DropoutPredictor:
         )
         
         self.model.fit(X, y)
-        
+        print("Model trained successfully on Top 10 features.")
         # Calculate basic metrics
         accuracy = self.model.score(X, y)
         return {"accuracy": accuracy}

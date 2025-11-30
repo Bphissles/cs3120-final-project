@@ -1,26 +1,40 @@
-# Nuxt Minimal Starter
+# Student Dropout Risk Predictor - Frontend
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+The frontend for the Student Dropout Risk Predictor, built with [Nuxt 3](https://nuxt.com/). This application provides a user interface for inputting student data (either individually or in batch via CSV) to predict dropout risks.
 
-## Setup
+## Features
 
-Make sure to install dependencies:
+- **Single Prediction:** Interactive form with client-side validation for individual student data entry.
+- **Batch Prediction:** CSV file upload support for processing multiple student records at once.
+- **Visualizations:** Results are displayed with risk scores and sorting capabilities.
+- **Responsive Design:** Styled with SCSS for a clean, accessible interface.
 
-```bash
-# npm
-npm install
+## Prerequisites
 
-# pnpm
-pnpm install
+- **Node.js:** v22 or higher
+- **Package Manager:** `npm`, `pnpm`, or `yarn`
 
-# yarn
-yarn install
+## Setup & Installation
 
-# bun
-bun install
-```
+1.  **Install Dependencies**:
+    ```bash
+    # npm
+    npm install
 
-## Development Server
+    # pnpm
+    pnpm install
+    ```
+
+2.  **Environment Configuration**:
+    By default, the application expects the backend to be running at `http://127.0.0.1:5000/api`.
+    To override this (e.g., for production), set the `API_URL` environment variable.
+
+    You can create a `.env` file in the root of the `frontend` directory:
+    ```bash
+    API_URL=http://your-backend-url.com/api
+    ```
+
+## Development
 
 Start the development server on `http://localhost:3000`:
 
@@ -30,15 +44,11 @@ npm run dev
 
 # pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+The application will be available at `http://localhost:3000`.
+
+## Production Build
 
 Build the application for production:
 
@@ -48,28 +58,18 @@ npm run build
 
 # pnpm
 pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+Locally preview the production build:
 
 ```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Project Structure
+
+- `pages/`: Application routes (Home, About, etc.)
+- `components/`: Reusable Vue components
+- `assets/scss/`: Global styles and theme definitions
+- `public/`: Static assets
+- `nuxt.config.ts`: Nuxt configuration (API base URL, modules, etc.)

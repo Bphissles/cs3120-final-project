@@ -1,109 +1,84 @@
 # Student Dropout Risk Predictor
 
-Predict student dropout risk using a supervised ML model with a Nuxt.js frontend and a Flask backend.
+Predict student dropout risk using a supervised Machine Learning model with a **Nuxt.js (Vue 3)** frontend and a **Flask (Python)** backend.
 
 ## Overview
-- **Goal:** Sort students into risk categories and present ranked results.
-- **Model:** Initial approach uses a Random Forest classifier to capture non-linear feature interactions.
-- **Modes:** Single-student form input or batch CSV upload. Results exportable as CSV.
+
+- **Goal:** Sort students into risk categories and present ranked results to help identify at-risk students early.
+- **Model:** Uses a **Random Forest classifier** to capture non-linear feature interactions and predict outcomes (Dropout, Enrolled, Graduate).
+- **Modes:**
+    - **Single-student form input:** Interactive web form for individual assessment.
+    - **Batch CSV upload:** Process large datasets efficiently with exportable results.
 
 ## Dataset
-- **Source:** UCI ML Repository — Predict Students Dropout and Academic Success
-  - https://archive.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success
-- **Rows:** 4,424
-- **Features:** 36 total, ~19 preliminarily relevant
-- **Type:** Tabular
 
-Example features: Marital status, Course, Previous qualification, GDP, Daytime/evening attendance, Mother’s qualification, Target, International, Nationality, Father’s qualification, Displaced, Unemployment rate, Educational special needs, Debtor, Gender, Inflation rate, Tuition fees up to date, Scholarship holder, Age at enrollment.
-
-## Features
-- **Form processing:** Single-student input with client-side validation.
-- **CSV processing:** Batch upload; per-row error reporting with guidance.
-- **Results:** Sorted by predicted dropout risk (highest first); optional pie chart.
-- **Export:** Download processed results as CSV.
+- **Source:** [UCI ML Repository — Predict Students Dropout and Academic Success](https://archive.ics.uci.edu/dataset/697/predict+students+dropout+and+academic+success)
+- **Size:** 4,424 rows
+- **Features:** 36 total (Demographic, Socio-economic, Macro-economic, Academic)
+- **Target:** Dropout, Enrolled, Graduate
 
 ## Tech Stack
-- **Frontend:** Nuxt.js (Vue, HTML, CSS, JS)
-- **Backend:** Flask
-- **SSR/Process Manager:** pm2
-- **Hosting:** Netlify (frontend), Render (backend)
+
+- **Frontend:** Nuxt.js 3 (Vue, SCSS)
+- **Backend:** Flask (Python)
+- **ML:** Scikit-learn, Pandas
+- **Deployment:** Netlify (Frontend), Render (Backend)
 
 ## Project Structure
+
 ```
 cs3120-final-project/
-├─ frontend/
-│  └─ app/
-│     ├─ pages/
-│     │  ├─ index.vue
-│     │  └─ about.vue
-│     └─ app.vue
-└─ backend/
+├─ backend/                # Flask application & ML Model
+│  ├─ app.py               # API entry point
+│  ├─ model.py             # Prediction logic
+│  ├─ train.py             # Training script
+│  └─ model_artifacts.joblib # Trained model (generated)
+├─ frontend/               # Nuxt.js application
+│  ├─ app/                 # Vue components & pages
+│  └─ nuxt.config.ts       # Frontend configuration
+└─ research-space/         # Dataset & Jupyter notebooks
+   └─ final-project-data.csv
 ```
 
 ## Local Development
 
 ### Prerequisites
-- Node.js 18+
-- pnpm or npm
-- Python 3.10+
-- pip / venv
+- **Node.js** 18+
+- **Python** 3.10+
 
-### Frontend (Nuxt)
-```
-# from frontend/app
-pnpm install        # or: npm install
-pnpm dev            # or: npm run dev
-```
-Dev server will run at http://localhost:3000 by default.
+### Quick Start
 
-### Backend (Flask)
-- TODO: Initialize Flask app in `backend/`.
-- TODO: Provide `/predict` endpoint for single prediction.
-- TODO: Provide `/predict-batch` endpoint for CSV file upload.
-- TODO: Package model artifact(s) and preprocessor(s).
-- TODO: Add CORS configuration for the Nuxt dev origin.
+1.  **Backend Setup**:
+    Navigate to `backend/` and follow the [Backend README](./backend/README.md) to install dependencies and start the Flask server.
+    ```bash
+    cd backend
+    # ... setup instructions ...
+    python app.py
+    ```
 
-Suggested skeleton: - **AI Provided**
-```
-backend/
-├─ app.py                # Flask app factory and route registration
-├─ requirements.txt      # pinned dependencies
-├─ model/
-│  ├─ train.py           # offline training script (optional)
-│  ├─ pipeline.pkl       # serialized model & preprocessors (after training)
-│  └─ schema.json        # expected feature schema
-└─ routes/
-   └─ predict.py         # /predict and /predict-batch handlers
-```
+2.  **Frontend Setup**:
+    Navigate to `frontend/` and follow the [Frontend README](./frontend/README.md) to install dependencies and start the Nuxt development server.
+    ```bash
+    cd frontend
+    # ... setup instructions ...
+    npm run dev
+    ```
 
-## API (Planned)
-- POST `/predict`
-  - body: JSON with feature values for one student
-  - returns: `{ risk: number | string, probabilities?: object }`
-- POST `/predict-batch`
-  - body: multipart/form-data with `file` (CSV)
-  - returns: `{ rows: Array<{ index: number, risk: number | string, errors?: string[] }> }`
+3.  **Access**:
+    Open `http://localhost:3000` in your browser.
 
-Notes:
-- Map model outputs to labels (e.g., Low/Medium/High) consistently on backend.
-- Return row-level validation errors for batch processing.
+## Features Status
 
-## CSV Template (Planned)
-- TODO: Provide `frontend/public/template.csv` with required headers.
-- TODO: Document schema and allowed values in backend `schema.json` and README.
+- [x] **ML Model:** Trained Random Forest model with ~19 key features.
+- [x] **API:** Flask endpoints for single and batch predictions.
+- [x] **Frontend:** Responsive UI for data entry and results visualization.
+- [x] **Batch Processing:** Upload CSV capability with row-level error reporting.
+- [x] **Export:** Download processed results as CSV.
 
 ## Deployment
-- Frontend: Netlify
-  - Build command: `npm build`
-  - Publish directory: `.output/public` (Nuxt static) or SSR with adapter as needed
-- Backend: Render (Flask)
-  - Gunicorn entrypoint: `gunicorn -w 2 -b 0.0.0.0:$PORT app:app`
-  - Set environment variables securely
 
-## Development Notes
-- Prefer simple, well-documented code. Add clear comments for business logic and model pipelines.
-- Handle environments (dev/prod) carefully. Do not overwrite `.env` files.
-- No mocks in dev/prod. Use mocks only for tests.
+- **Frontend:** Deployed on **Netlify**.
+- **Backend:** Deployed on **Render** using Gunicorn.
 
 ## Author
 Benjamin Hislop (900896194)
