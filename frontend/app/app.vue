@@ -1,5 +1,9 @@
 <script setup>
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  import('bootstrap/dist/js/bootstrap.bundle.min.js')
+})
 </script>
 <template>
   <Navigation />
