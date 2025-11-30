@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   
   runtimeConfig: {
     public: {
-      apiBase: process.env.API_URL || 'https://cs3120-final-project.onrender.com/'
+      apiBase: process.env.API_URL || 'https://cs3120-final-project.onrender.com/api'
     }
   },
 
