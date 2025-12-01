@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# Shamelessly generated with Google Gemini 3. 
+# This was to make local development easier, not get better at bash scripting.
 # Function to handle cleanup
 cleanup() {
     echo ""
