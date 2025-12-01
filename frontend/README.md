@@ -1,4 +1,5 @@
 # Student Dropout Risk Predictor - Frontend
+**Revised using Google Gemini 3**
 
 The frontend for the Student Dropout Risk Predictor, built with [Nuxt 3](https://nuxt.com/). This application provides a user interface for inputting student data (either individually or in batch via CSV) to predict dropout risks.
 

@@ -1,4 +1,7 @@
 # Student Dropout Risk Predictor - Backend
+**Revised using Google Gemini 3**
+
+Backend structure developed using: https://github.com/Bphissles/cs3210-project-03-the-feds-personal/tree/main/vue-python-app/backend
 
 This is the **Flask** backend for the Student Dropout Risk Predictor application. It serves a Machine Learning model (Random Forest) to predict student dropout risk based on various demographic and academic factors.
 

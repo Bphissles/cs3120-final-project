@@ -1,4 +1,5 @@
 # Student Dropout Risk Predictor
+**Revised using Google Gemini 3**
 
 Predict student dropout risk using a supervised Machine Learning model with a **Nuxt.js (Vue 3)** frontend and a **Flask (Python)** backend.
 
