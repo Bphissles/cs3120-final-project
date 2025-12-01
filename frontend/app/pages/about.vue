@@ -25,7 +25,7 @@ useHead({ title: 'About | Student Dropout Risk Predictor' })
           <ul class="list-group list-group-flush">
             <li class="list-group-item px-0"><strong>Rows:</strong> 4,424</li>
             <li class="list-group-item px-0"><strong>Total Features:</strong> 36</li>
-            <li class="list-group-item px-0"><strong>Preliminarily Relevant Features:</strong> ~19</li>
+            <li class="list-group-item px-0"><strong>Preliminarily Relevant Features:</strong> ~19 - <em>Revised to 10 features</em></li>
             <li class="list-group-item px-0"><strong>Type:</strong> Tabular</li>
           </ul>
 
@@ -48,6 +48,7 @@ useHead({ title: 'About | Student Dropout Risk Predictor' })
                 </div>
               </div>
             </div>
+            <a class="mt-3 btn btn-primary" href="https://github.com/Bphissles/cs3120-final-project/blob/main/research-space/variables-table.md" target="_blank" rel="noopener">View full set of features</a>
           </div>
         </div>
       </div>
@@ -86,13 +87,13 @@ useHead({ title: 'About | Student Dropout Risk Predictor' })
           <div class="row">
             <div class="col-md-6">
               <ul class="list-group list-group-flush">
-                <li class="list-group-item px-0"><strong>Frontend:</strong> Nuxt.js (Vue, HTML, CSS, JS)</li>
-                <li class="list-group-item px-0"><strong>Backend:</strong> Flask</li>
+                <li class="list-group-item px-0"><strong>Frontend:</strong> Nuxt.js (VueJS, Bootstrap, Vite)</li>
+                <li class="list-group-item px-0"><strong>Backend:</strong> Flask (Python)</li>
               </ul>
             </div>
             <div class="col-md-6">
               <ul class="list-group list-group-flush">
-                <li class="list-group-item px-0"><strong>SSR/Process Manager:</strong> pm2</li>
+                <li class="list-group-item px-0"><strong>SSR/Process Manager:</strong> pm2 - <em>Future work </em></li>
                 <li class="list-group-item px-0"><strong>Hosting:</strong> Netlify (frontend) and Render (backend)</li>
               </ul>
             </div>
