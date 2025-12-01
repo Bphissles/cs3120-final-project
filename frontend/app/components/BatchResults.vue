@@ -21,6 +21,7 @@ const getRiskBadgeClass = (prediction) => {
 }
 
 // Chart Data
+// Chart structure developed with help from Gemini 3
 const chartData = computed(() => {
   if (!props.results || props.results.length === 0) return null
   
@@ -165,7 +166,7 @@ const pieChartPaths = computed(() => {
               </span>
             </th>
             <th>Dropout Risk</th>
-            <th>Course</th>
+            <th>Area of Study</th>
           </tr>
         </thead>
         <tbody>

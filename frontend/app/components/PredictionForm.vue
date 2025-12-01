@@ -38,7 +38,7 @@ const handleSubmit = () => {
       </div>
       
       <div class="col-md-6">
-        <label for="Course" class="form-label small fw-bold text-muted">Course</label>
+        <label for="Course" class="form-label small fw-bold text-muted">Area of Study</label>
         <select id="Course" v-model.number="formData['Course']" class="form-select" required>
           <option v-for="(label, value) in categoricalOptions.course" :key="value" :value="value">{{ label }}</option>
         </select>
